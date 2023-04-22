@@ -6,9 +6,8 @@ namespace FuelCalcWF
     {
         private double _distance = 0;
         private double _value = 0;
-        private double _Price = 0;
+        private double _price = 0;
         private double _FuelVolume = 0;
-        private double _PriceTrip = 0;
         public Form1()
         {
             InitializeComponent();
@@ -56,25 +55,42 @@ namespace FuelCalcWF
             valueBox.Width = 100;
             this.Controls.Add(valueBox);
 
+            fuelVolume.Location = new Point(10, 150);
+            fuelVolume.Width = 100;
+            fuelVolume.Text = "Fuel: ";
+            this.Controls.Add(fuelVolume);
+
+            priceTrip.Location = new Point(110, 150);
+            priceTrip.Width = 100;
+            priceTrip.Text = "Price: ";
+            this.Controls.Add(priceTrip);
+
             calculate.Size = new Size(80, 30);
             calculate.Location = new Point(50, 120);
             calculate.Text = "Calculate";
             calculate.Click += (s, e) =>
             {
-                FuelVolume();
-                PriceTrip();
+                double.TryParse(distanceBox.Text, out _distance);
+                double.TryParse(valueBox.Text, out _value);
+                double.TryParse(priceBox.Text, out _price);
+
+                _FuelVolume = FuelVolume();
+                fuelVolume.Text = $"{fuelVolume.Text}{_FuelVolume}";
+                priceTrip.Text = $"{priceTrip.Text}{PriceTrip()}";
             };
             this.Controls.Add(calculate);
+
+
         }
 
-        private void FuelVolume()
+        private double FuelVolume()
         {
-            _FuelVolume =  _distance * (_value / 100);
+            return  _distance * (_value / 100);
         }
 
-        private void PriceTrip()
+        private double PriceTrip()
         {
-            _PriceTrip = _FuelVolume * _Price;
+            return _FuelVolume * _price;
         }
     }
 }
